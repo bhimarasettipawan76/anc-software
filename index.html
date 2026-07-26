@@ -1,0 +1,3986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<meta name="theme-color" content="#030609">
+
+<title>ANC LAB PRO</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --bg: #030609;
+    --panel: #091018;
+    --panel2: #0d1721;
+    --border: #1d3042;
+    --text: #edf5ff;
+    --muted: #8296aa;
+    --accent: #65d5ff;
+    --good: #68ff9a;
+    --warning: #ffd166;
+    --danger: #ff5964;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #102234,
+            var(--bg) 50%
+        );
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+body {
+    padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+}
+
+button,
+select,
+input {
+    font: inherit;
+}
+
+button {
+    touch-action: manipulation;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+    width: min(1100px, 100%);
+    margin: auto;
+    padding: 15px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 10px 3px 17px;
+}
+
+.brand h1 {
+    margin: 0;
+
+    font-size: clamp(
+        24px,
+        6vw,
+        38px
+    );
+
+    letter-spacing: .14em;
+}
+
+.brand p {
+    margin: 4px 0 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.status {
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(
+            10,
+            18,
+            27,
+            .85
+        );
+
+    border-radius: 100px;
+
+    padding: 9px 13px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .08em;
+}
+
+.status.running {
+    color: var(--good);
+
+    border-color:
+        rgba(
+            104,
+            255,
+            154,
+            .35
+        );
+}
+
+.status.error {
+    color: var(--danger);
+}
+
+/* =========================================================
+   SAFETY
+========================================================= */
+
+.safety {
+    padding: 14px 15px;
+
+    margin-bottom: 14px;
+
+    border-radius: 15px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            209,
+            102,
+            .30
+        );
+
+    background:
+        rgba(
+            70,
+            51,
+            10,
+            .25
+        );
+
+    color: #ffe4a3;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(
+                14,
+                24,
+                35,
+                .94
+            ),
+            rgba(
+                7,
+                13,
+                20,
+                .94
+            )
+        );
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 20px;
+
+    padding: 17px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(
+            0,
+            0,
+            0,
+            .25
+        );
+}
+
+.card h2 {
+    margin: 0 0 15px;
+
+    font-size: 15px;
+
+    letter-spacing: .04em;
+}
+
+/* =========================================================
+   MASTER PANEL
+========================================================= */
+
+.master {
+    margin-bottom: 14px;
+}
+
+.visualizer {
+    position: relative;
+
+    height: 210px;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #050b11,
+            #020406
+        );
+
+    border:
+        1px solid
+        #162534;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.visualLabel {
+    position: absolute;
+
+    top: 10px;
+    left: 12px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: .1em;
+}
+
+/* =========================================================
+   METERS
+========================================================= */
+
+.meters {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap: 8px;
+
+    margin-top: 10px;
+}
+
+.meter {
+    padding: 10px;
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            .25
+        );
+
+    border-radius: 12px;
+
+    border:
+        1px solid
+        #142331;
+}
+
+.meterName {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: .1em;
+}
+
+.meterValue {
+    margin-top: 4px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.actions {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+
+    margin-top: 13px;
+}
+
+button {
+    min-height: 48px;
+
+    border-radius: 13px;
+
+    border:
+        1px solid
+        #294055;
+
+    background:
+        #101c28;
+
+    color: white;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .4;
+}
+
+.start {
+    background: #eaf5ff;
+    color: #06101a;
+}
+
+.stop {
+    background: #341116;
+
+    border-color:
+        rgba(
+            255,
+            89,
+            100,
+            .40
+        );
+
+    color: #ffb2b7;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    gap: 14px;
+}
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.control {
+    margin: 17px 0;
+}
+
+.controlHeader {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 15px;
+
+    margin-bottom: 9px;
+
+    color: #b6c7d8;
+
+    font-size: 12px;
+}
+
+.controlHeader output {
+    color: white;
+
+    font-weight: 700;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+input[type="range"] {
+    appearance: none;
+
+    width: 100%;
+    height: 5px;
+
+    border-radius: 100px;
+
+    background: #1b2b3b;
+
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(
+            255,
+            255,
+            255,
+            .08
+        );
+}
+
+select {
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    border:
+        1px solid
+        #263b4e;
+
+    background: #0b1520;
+
+    color: white;
+
+    outline: none;
+}
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stat {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 15px;
+
+    padding: 11px 0;
+
+    border-bottom:
+        1px solid
+        #152330;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.stat:last-child {
+    border-bottom: 0;
+}
+
+.statValue {
+    color: white;
+
+    text-align: right;
+
+    max-width: 60%;
+
+    overflow: hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   PRESETS
+========================================================= */
+
+.presets {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+}
+
+.preset {
+    min-height: 42px;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.info {
+    margin-top: 13px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.55;
+}
+
+.badge {
+    display: inline-block;
+
+    padding: 4px 7px;
+
+    margin-right: 4px;
+
+    border-radius: 6px;
+
+    background: #122130;
+
+    color: #a9c8e4;
+
+    font-size: 9px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+    max-width: 700px
+) {
+
+    .grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .visualizer {
+        height: 170px;
+    }
+
+    .app {
+        padding: 10px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
+<header class="header">
+
+    <div class="brand">
+
+        <h1>ANC LAB</h1>
+
+        <p>
+            Real-Time Experimental
+            Anti-Noise DSP
+        </p>
+
+    </div>
+
+    <div
+        id="status"
+        class="status"
+    >
+        OFFLINE
+    </div>
+
+</header>
+
+
+<!-- ======================================================
+     SAFETY
+====================================================== -->
+
+<div class="safety">
+
+    <strong>
+        ⚠ SAFETY
+    </strong>
+
+    — Connect earphones first and
+    start with extremely low volume.
+    A microphone → earphone loop can
+    create loud feedback.
+
+    If you hear squealing,
+    instability or uncomfortable
+    pressure/sound, press
+    <strong>STOP immediately.</strong>
+
+</div>
+
+
+<!-- ======================================================
+     MASTER
+====================================================== -->
+
+<section class="card master">
+
+    <div class="visualizer">
+
+        <canvas
+            id="spectrum"
+        ></canvas>
+
+        <div class="visualLabel">
+            REAL-TIME INPUT SPECTRUM
+        </div>
+
+    </div>
+
+
+    <div class="meters">
+
+        <div class="meter">
+
+            <div class="meterName">
+                INPUT
+            </div>
+
+            <div
+                id="inputMeter"
+                class="meterValue"
+            >
+                −∞ dB
+            </div>
+
+        </div>
+
+
+        <div class="meter">
+
+            <div class="meterName">
+                OUTPUT
+            </div>
+
+            <div
+                id="outputMeter"
+                class="meterValue"
+            >
+                −∞ dB
+            </div>
+
+        </div>
+
+
+        <div class="meter">
+
+            <div class="meterName">
+                PEAK
+            </div>
+
+            <div
+                id="peakMeter"
+                class="meterValue"
+            >
+                0.000
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            id="startButton"
+            class="start"
+        >
+            START ENGINE
+        </button>
+
+        <button
+            id="stopButton"
+            class="stop"
+            disabled
+        >
+            STOP
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SETTINGS GRID
+====================================================== -->
+
+<div class="grid">
+
+
+<!-- ======================================================
+     CANCELLATION
+====================================================== -->
+
+<section class="card">
+
+<h2>
+    Cancellation Engine
+</h2>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Processing Mode
+        </span>
+
+    </div>
+
+    <select id="mode">
+
+        <option value="off">
+            Analysis Only
+        </option>
+
+        <option
+            value="invert"
+            selected
+        >
+            Phase Inversion
+        </option>
+
+        <option value="adaptive">
+            Adaptive Experimental
+        </option>
+
+    </select>
+
+</div>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Cancellation Gain
+        </span>
+
+        <output id="gainValue">
+            0.060
+        </output>
+
+    </div>
+
+    <input
+        id="gain"
+        type="range"
+        min="0"
+        max="0.25"
+        step="0.001"
+        value="0.060"
+    >
+
+</div>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Delay
+        </span>
+
+        <output id="delayValue">
+            0.00 ms
+        </output>
+
+    </div>
+
+    <input
+        id="delay"
+        type="range"
+        min="0"
+        max="30"
+        step="0.05"
+        value="0"
+    >
+
+</div>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Phase
+        </span>
+
+        <output id="phaseValue">
+            180°
+        </output>
+
+    </div>
+
+    <input
+        id="phase"
+        type="range"
+        min="0"
+        max="360"
+        step="1"
+        value="180"
+    >
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FILTERS
+====================================================== -->
+
+<section class="card">
+
+<h2>
+    Acoustic Target
+</h2>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            High-Pass
+        </span>
+
+        <output id="highpassValue">
+            35 Hz
+        </output>
+
+    </div>
+
+    <input
+        id="highpass"
+        type="range"
+        min="20"
+        max="300"
+        step="1"
+        value="35"
+    >
+
+</div>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Low-Pass
+        </span>
+
+        <output id="lowpassValue">
+            450 Hz
+        </output>
+
+    </div>
+
+    <input
+        id="lowpass"
+        type="range"
+        min="80"
+        max="2000"
+        step="5"
+        value="450"
+    >
+
+</div>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Safety Ceiling
+        </span>
+
+        <output id="limitValue">
+            0.100
+        </output>
+
+    </div>
+
+    <input
+        id="limit"
+        type="range"
+        min="0.02"
+        max="0.20"
+        step="0.002"
+        value="0.100"
+    >
+
+</div>
+
+
+<div class="control">
+
+    <div class="controlHeader">
+
+        <span>
+            Adaptive Strength
+        </span>
+
+        <output id="adaptiveValue">
+            0.0020
+        </output>
+
+    </div>
+
+    <input
+        id="adaptive"
+        type="range"
+        min="0.0001"
+        max="0.010"
+        step="0.0001"
+        value="0.002"
+    >
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     DIAGNOSTICS
+====================================================== -->
+
+<section class="card">
+
+<h2>
+    Hardware / Browser Diagnostics
+</h2>
+
+
+<div class="stat">
+
+    <span>
+        Sample Rate
+    </span>
+
+    <span
+        id="sampleRate"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Audio State
+    </span>
+
+    <span
+        id="audioState"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Base Latency
+    </span>
+
+    <span
+        id="baseLatency"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Output Latency
+    </span>
+
+    <span
+        id="outputLatency"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Input Latency
+    </span>
+
+    <span
+        id="inputLatency"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Echo Cancellation
+    </span>
+
+    <span
+        id="aec"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Noise Suppression
+    </span>
+
+    <span
+        id="ns"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Auto Gain
+    </span>
+
+    <span
+        id="agc"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+
+<div class="stat">
+
+    <span>
+        Input Device
+    </span>
+
+    <span
+        id="device"
+        class="statValue"
+    >
+        —
+    </span>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     PRESETS
+====================================================== -->
+
+<section class="card">
+
+<h2>
+    Experimental Presets
+</h2>
+
+
+<div class="presets">
+
+    <button
+        class="preset"
+        data-preset="safe"
+    >
+        SAFE START
+    </button>
+
+    <button
+        class="preset"
+        data-preset="fan"
+    >
+        FAN / AC
+    </button>
+
+    <button
+        class="preset"
+        data-preset="engine"
+    >
+        ENGINE
+    </button>
+
+    <button
+        class="preset"
+        data-preset="hum"
+    >
+        50 Hz HUM
+    </button>
+
+</div>
+
+
+<div class="info">
+
+    <span class="badge">
+        AUDIOWORKLET
+    </span>
+
+    <span class="badge">
+        FFT
+    </span>
+
+    <span class="badge">
+        LIMITER
+    </span>
+
+    <span class="badge">
+        FRACTIONAL DELAY
+    </span>
+
+
+    <p>
+
+        Commercial ANC headphones use
+        microphones physically located
+        in or around each earcup/earbud
+        and extremely low-latency
+        dedicated DSP.
+
+        This experiment uses your
+        browser-accessible microphone
+        and audio output.
+
+        Therefore cancellation depends
+        strongly on device latency,
+        microphone position and the
+        acoustic path.
+
+    </p>
+
+</div>
+
+</section>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ANC LAB
+   SINGLE FILE VERSION
+
+   Main thread:
+       microphone
+       analyser
+       UI
+       diagnostics
+
+   AudioWorklet:
+       fractional delay
+       filters
+       inversion
+       limiter
+       safety monitoring
+========================================================= */
+
+
+/* =========================================================
+   DOM HELPERS
+========================================================= */
+
+const $ =
+    id =>
+        document.getElementById(id);
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let audioContext = null;
+
+let microphoneStream = null;
+
+let microphoneTrack = null;
+
+let microphoneSource = null;
+
+let analyser = null;
+
+let processorNode = null;
+
+let animationID = null;
+
+let workletURL = null;
+
+let latestMetrics = {
+
+    inputRMS: 0,
+
+    outputRMS: 0,
+
+    peak: 0
+
+};
+
+
+/* =========================================================
+   WORKLET SOURCE
+========================================================= */
+
+const processorSource = `
+
+class ANCLabProcessor
+extends AudioWorkletProcessor {
+
+    constructor() {
+
+        super();
+
+
+        /* ===============================================
+           PARAMETERS
+        =============================================== */
+
+        this.params = {
+
+            mode:
+                "invert",
+
+            gain:
+                0.060,
+
+            delayMs:
+                0,
+
+            phase:
+                180,
+
+            highpass:
+                35,
+
+            lowpass:
+                450,
+
+            limit:
+                0.100,
+
+            adaptive:
+                0.002
+
+        };
+
+
+        /* ===============================================
+           DELAY BUFFER
+
+           60 ms maximum internal buffer.
+        =============================================== */
+
+        this.maxDelaySamples =
+            Math.ceil(
+                sampleRate *
+                0.060
+            ) + 8;
+
+
+        this.delayBuffer =
+            new Float32Array(
+                this.maxDelaySamples
+            );
+
+
+        this.writeIndex = 0;
+
+
+        /* ===============================================
+           FILTER STATE
+        =============================================== */
+
+        this.hpPreviousInput = 0;
+
+        this.hpPreviousOutput = 0;
+
+        this.lpPreviousOutput = 0;
+
+
+        /* ===============================================
+           OUTPUT STATE
+        =============================================== */
+
+        this.previousOutput = 0;
+
+
+        /* ===============================================
+           SAFETY
+        =============================================== */
+
+        this.hotCounter = 0;
+
+        this.extremeCounter = 0;
+
+        this.blockCounter = 0;
+
+
+        /* ===============================================
+           MESSAGE INPUT
+        =============================================== */
+
+        this.port.onmessage =
+            event => {
+
+                const data =
+                    event.data;
+
+                if (
+                    !data
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    data.type ===
+                    "parameters"
+                ) {
+
+                    Object.assign(
+                        this.params,
+                        data.parameters
+                    );
+
+                }
+
+
+                if (
+                    data.type ===
+                    "reset"
+                ) {
+
+                    this.reset();
+
+                }
+
+            };
+
+    }
+
+
+    /* =================================================
+       RESET DSP
+    ================================================= */
+
+    reset() {
+
+        this.delayBuffer.fill(
+            0
+        );
+
+        this.writeIndex = 0;
+
+        this.hpPreviousInput = 0;
+
+        this.hpPreviousOutput = 0;
+
+        this.lpPreviousOutput = 0;
+
+        this.previousOutput = 0;
+
+        this.hotCounter = 0;
+
+        this.extremeCounter = 0;
+
+    }
+
+
+    /* =================================================
+       FRACTIONAL DELAY
+
+       Linear interpolation between
+       adjacent samples.
+
+       This is significantly smoother
+       than integer-only delay tuning.
+    ================================================= */
+
+    fractionalDelay(
+        input,
+        delaySamples
+    ) {
+
+        this.delayBuffer[
+            this.writeIndex
+        ] = input;
+
+
+        let readPosition =
+            this.writeIndex -
+            delaySamples;
+
+
+        while (
+            readPosition < 0
+        ) {
+
+            readPosition +=
+                this.maxDelaySamples;
+
+        }
+
+
+        const indexA =
+            Math.floor(
+                readPosition
+            );
+
+
+        const indexB =
+            (
+                indexA + 1
+            ) %
+            this.maxDelaySamples;
+
+
+        const fraction =
+            readPosition -
+            indexA;
+
+
+        const sampleA =
+            this.delayBuffer[
+                indexA
+            ];
+
+
+        const sampleB =
+            this.delayBuffer[
+                indexB
+            ];
+
+
+        const output =
+            sampleA *
+            (
+                1 -
+                fraction
+            )
+            +
+            sampleB *
+            fraction;
+
+
+        this.writeIndex =
+            (
+                this.writeIndex +
+                1
+            ) %
+            this.maxDelaySamples;
+
+
+        return output;
+
+    }
+
+
+    /* =================================================
+       HIGH PASS
+
+       One-pole high-pass.
+
+       Designed mainly to remove
+       subsonic/DC components.
+    ================================================= */
+
+    highPass(
+        input
+    ) {
+
+        const frequency =
+            Math.max(
+                10,
+                this.params.highpass
+            );
+
+
+        const coefficient =
+            Math.exp(
+                -2 *
+                Math.PI *
+                frequency /
+                sampleRate
+            );
+
+
+        const output =
+            coefficient *
+            (
+                this.hpPreviousOutput
+                +
+                input
+                -
+                this.hpPreviousInput
+            );
+
+
+        this.hpPreviousInput =
+            input;
+
+
+        this.hpPreviousOutput =
+            output;
+
+
+        return output;
+
+    }
+
+
+    /* =================================================
+       LOW PASS
+
+       One-pole low-pass.
+
+       ANC experiments should generally
+       concentrate on lower-frequency,
+       relatively predictable noise.
+    ================================================= */
+
+    lowPass(
+        input
+    ) {
+
+        const frequency =
+            Math.min(
+                sampleRate *
+                0.40,
+
+                Math.max(
+                    50,
+                    this.params.lowpass
+                )
+            );
+
+
+        const coefficient =
+            1 -
+            Math.exp(
+                -2 *
+                Math.PI *
+                frequency /
+                sampleRate
+            );
+
+
+        this.lpPreviousOutput +=
+
+            coefficient *
+            (
+                input -
+                this.lpPreviousOutput
+            );
+
+
+        return this.lpPreviousOutput;
+
+    }
+
+
+    /* =================================================
+       SOFT LIMITER
+    ================================================= */
+
+    softLimit(
+        input
+    ) {
+
+        const ceiling =
+            Math.max(
+                0.01,
+                Math.min(
+                    0.25,
+                    this.params.limit
+                )
+            );
+
+
+        return (
+            ceiling *
+            Math.tanh(
+                input /
+                ceiling
+            )
+        );
+
+    }
+
+
+    /* =================================================
+       SLEW PROTECTION
+
+       Prevents a single sample from
+       making an enormous jump.
+    ================================================= */
+
+    slewLimit(
+        input
+    ) {
+
+        const maximumStep =
+            0.035;
+
+
+        const difference =
+            input -
+            this.previousOutput;
+
+
+        let output =
+            input;
+
+
+        if (
+            difference >
+            maximumStep
+        ) {
+
+            output =
+                this.previousOutput +
+                maximumStep;
+
+        }
+
+
+        else if (
+            difference <
+            -maximumStep
+        ) {
+
+            output =
+                this.previousOutput -
+                maximumStep;
+
+        }
+
+
+        this.previousOutput =
+            output;
+
+
+        return output;
+
+    }
+
+
+    /* =================================================
+       ADAPTIVE GAIN ESTIMATE
+
+       This is intentionally conservative.
+
+       True feed-forward ANC requires a
+       known secondary acoustic path.
+
+       A browser does not know that path.
+    ================================================= */
+
+    adaptiveGain(
+        sample
+    ) {
+
+        const activity =
+            Math.min(
+                1,
+                Math.abs(
+                    sample
+                ) *
+                12
+            );
+
+
+        const strength =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    this.params.adaptive *
+                    100
+                )
+            );
+
+
+        return (
+            0.45
+            +
+            activity *
+            0.35 *
+            strength
+        );
+
+    }
+
+
+    /* =================================================
+       MAIN AUDIO PROCESSING
+    ================================================= */
+
+    process(
+        inputs,
+        outputs
+    ) {
+
+        const inputChannel =
+            inputs[0] &&
+            inputs[0][0];
+
+
+        const outputChannel =
+            outputs[0] &&
+            outputs[0][0];
+
+
+        if (
+            !outputChannel
+        ) {
+
+            return true;
+
+        }
+
+
+        if (
+            !inputChannel
+        ) {
+
+            outputChannel.fill(
+                0
+            );
+
+            return true;
+
+        }
+
+
+        let inputEnergy = 0;
+
+        let outputEnergy = 0;
+
+        let outputPeak = 0;
+
+
+        const delaySamples =
+            Math.min(
+
+                this.maxDelaySamples -
+                3,
+
+                Math.max(
+                    0,
+
+                    this.params.delayMs *
+                    sampleRate /
+                    1000
+                )
+
+            );
+
+
+        /*
+           180 degrees => -1
+
+           Phase trim here is a gain
+           projection rather than a
+           frequency-independent true
+           phase rotator.
+
+           A true arbitrary phase shift
+           across frequencies would need
+           a Hilbert/all-pass network.
+        */
+
+        const phaseGain =
+            Math.cos(
+                this.params.phase *
+                Math.PI /
+                180
+            );
+
+
+        for (
+            let i = 0;
+            i <
+            outputChannel.length;
+            i++
+        ) {
+
+            const input =
+                inputChannel[i] || 0;
+
+
+            inputEnergy +=
+                input *
+                input;
+
+
+            /* ===========================================
+               DELAY
+            =========================================== */
+
+            let signal =
+                this.fractionalDelay(
+                    input,
+                    delaySamples
+                );
+
+
+            /* ===========================================
+               BAND LIMIT
+            =========================================== */
+
+            signal =
+                this.highPass(
+                    signal
+                );
+
+
+            signal =
+                this.lowPass(
+                    signal
+                );
+
+
+            /* ===========================================
+               PROCESSING MODE
+            =========================================== */
+
+            let output = 0;
+
+
+            if (
+                this.params.mode ===
+                "off"
+            ) {
+
+                output = 0;
+
+            }
+
+
+            else if (
+                this.params.mode ===
+                "invert"
+            ) {
+
+                output =
+                    signal *
+                    this.params.gain *
+                    phaseGain;
+
+            }
+
+
+            else if (
+                this.params.mode ===
+                "adaptive"
+            ) {
+
+                const adaptive =
+                    this.adaptiveGain(
+                        signal
+                    );
+
+
+                output =
+                    signal *
+                    this.params.gain *
+                    adaptive *
+                    phaseGain;
+
+            }
+
+
+            /* ===========================================
+               LIMIT
+            =========================================== */
+
+            output =
+                this.softLimit(
+                    output
+                );
+
+
+            /* ===========================================
+               SLEW PROTECTION
+            =========================================== */
+
+            output =
+                this.slewLimit(
+                    output
+                );
+
+
+            outputChannel[i] =
+                output;
+
+
+            outputEnergy +=
+                output *
+                output;
+
+
+            const absoluteOutput =
+                Math.abs(
+                    output
+                );
+
+
+            if (
+                absoluteOutput >
+                outputPeak
+            ) {
+
+                outputPeak =
+                    absoluteOutput;
+
+            }
+
+        }
+
+
+        /* ===============================================
+           RMS
+        =============================================== */
+
+        const inputRMS =
+            Math.sqrt(
+                inputEnergy /
+                inputChannel.length
+            );
+
+
+        const outputRMS =
+            Math.sqrt(
+                outputEnergy /
+                outputChannel.length
+            );
+
+
+        /* ===============================================
+           SAFETY WATCHDOG
+
+           Deliberately conservative.
+        =============================================== */
+
+        if (
+            outputRMS >
+            0.13
+        ) {
+
+            this.hotCounter++;
+
+        }
+
+        else {
+
+            this.hotCounter =
+                Math.max(
+                    0,
+                    this.hotCounter -
+                    2
+                );
+
+        }
+
+
+        if (
+            outputPeak >
+            0.20
+        ) {
+
+            this.extremeCounter++;
+
+        }
+
+        else {
+
+            this.extremeCounter =
+                Math.max(
+                    0,
+                    this.extremeCounter -
+                    2
+                );
+
+        }
+
+
+        if (
+            this.hotCounter >
+            20
+            ||
+            this.extremeCounter >
+            10
+        ) {
+
+            outputChannel.fill(
+                0
+            );
+
+
+            this.port.postMessage({
+
+                type:
+                    "panic",
+
+                reason:
+                    "Output safety threshold exceeded"
+
+            });
+
+
+            this.hotCounter = 0;
+
+            this.extremeCounter = 0;
+
+        }
+
+
+        /* ===============================================
+           SEND METERS
+
+           Not every block, to avoid
+           excessive main-thread traffic.
+        =============================================== */
+
+        this.blockCounter++;
+
+
+        if (
+            this.blockCounter %
+            8 ===
+            0
+        ) {
+
+            this.port.postMessage({
+
+                type:
+                    "metrics",
+
+                inputRMS,
+
+                outputRMS,
+
+                peak:
+                    outputPeak
+
+            });
+
+        }
+
+
+        return true;
+
+    }
+
+}
+
+
+registerProcessor(
+    "anc-lab-processor",
+    ANCLabProcessor
+);
+
+`;
+
+
+/* =========================================================
+   CREATE WORKLET URL
+========================================================= */
+
+function createWorkletURL() {
+
+    const blob =
+        new Blob(
+            [
+                processorSource
+            ],
+            {
+                type:
+                    "application/javascript"
+            }
+        );
+
+
+    return URL.createObjectURL(
+        blob
+    );
+
+}
+
+
+/* =========================================================
+   START AUDIO ENGINE
+========================================================= */
+
+async function startEngine() {
+
+    if (
+        audioContext
+    ) {
+
+        return;
+
+    }
+
+
+    setStatus(
+        "STARTING"
+    );
+
+
+    try {
+
+        /* ===============================================
+           MICROPHONE
+
+           Ask browser to disable voice
+           processing.
+
+           Browser/OS may still override
+           these requests.
+        =============================================== */
+
+        microphoneStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+
+                    video:
+                        false,
+
+                    audio: {
+
+                        echoCancellation: {
+                            ideal: false
+                        },
+
+                        noiseSuppression: {
+                            ideal: false
+                        },
+
+                        autoGainControl: {
+                            ideal: false
+                        },
+
+                        channelCount: {
+                            ideal: 1
+                        },
+
+                        sampleRate: {
+                            ideal: 48000
+                        },
+
+                        sampleSize: {
+                            ideal: 16
+                        },
+
+                        latency: {
+                            ideal: 0
+                        }
+
+                    }
+
+                });
+
+
+        microphoneTrack =
+            microphoneStream
+                .getAudioTracks()[0];
+
+
+        /* ===============================================
+           AUDIO CONTEXT
+        =============================================== */
+
+        const AudioContextClass =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+
+        if (
+            !AudioContextClass
+        ) {
+
+            throw new Error(
+                "Web Audio is not supported by this browser."
+            );
+
+        }
+
+
+        audioContext =
+            new AudioContextClass({
+
+                latencyHint:
+                    "interactive"
+
+            });
+
+
+        /* ===============================================
+           LOAD AUDIO WORKLET
+        =============================================== */
+
+        workletURL =
+            createWorkletURL();
+
+
+        await audioContext
+            .audioWorklet
+            .addModule(
+                workletURL
+            );
+
+
+        /* ===============================================
+           MICROPHONE SOURCE
+        =============================================== */
+
+        microphoneSource =
+            audioContext
+                .createMediaStreamSource(
+                    microphoneStream
+                );
+
+
+        /* ===============================================
+           ANALYSER
+        =============================================== */
+
+        analyser =
+            audioContext
+                .createAnalyser();
+
+
+        analyser.fftSize =
+            2048;
+
+
+        analyser.smoothingTimeConstant =
+            0.80;
+
+
+        analyser.minDecibels =
+            -100;
+
+
+        analyser.maxDecibels =
+            -10;
+
+
+        /* ===============================================
+           WORKLET
+        =============================================== */
+
+        processorNode =
+            new AudioWorkletNode(
+
+                audioContext,
+
+                "anc-lab-processor",
+
+                {
+
+                    numberOfInputs:
+                        1,
+
+                    numberOfOutputs:
+                        1,
+
+                    outputChannelCount:
+                        [
+                            1
+                        ]
+
+                }
+
+            );
+
+
+        /* ===============================================
+           WORKLET MESSAGES
+        =============================================== */
+
+        processorNode
+            .port
+            .onmessage =
+            event => {
+
+                const message =
+                    event.data;
+
+
+                if (
+                    !message
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    message.type ===
+                    "metrics"
+                ) {
+
+                    latestMetrics = {
+
+                        inputRMS:
+                            message.inputRMS,
+
+                        outputRMS:
+                            message.outputRMS,
+
+                        peak:
+                            message.peak
+
+                    };
+
+                }
+
+
+                if (
+                    message.type ===
+                    "panic"
+                ) {
+
+                    emergencyStop(
+                        message.reason
+                    );
+
+                }
+
+            };
+
+
+        /* ===============================================
+           CONNECTION GRAPH
+
+              microphone
+                 |
+             +---+---+
+             |       |
+          analyser  DSP
+                     |
+                  output
+        =============================================== */
+
+        microphoneSource.connect(
+            analyser
+        );
+
+
+        microphoneSource.connect(
+            processorNode
+        );
+
+
+        processorNode.connect(
+            audioContext.destination
+        );
+
+
+        await audioContext.resume();
+
+
+        /* ===============================================
+           SEND CURRENT PARAMETERS
+        =============================================== */
+
+        sendParameters();
+
+
+        /* ===============================================
+           DIAGNOSTICS
+        =============================================== */
+
+        updateDiagnostics();
+
+
+        /* ===============================================
+           UI
+        =============================================== */
+
+        $("startButton")
+            .disabled =
+            true;
+
+
+        $("stopButton")
+            .disabled =
+            false;
+
+
+        setStatus(
+            "RUNNING",
+            "running"
+        );
+
+
+        startVisualizer();
+
+    }
+
+
+    catch (
+        error
+    ) {
+
+        console.error(
+            error
+        );
+
+
+        await stopEngine();
+
+
+        setStatus(
+            "ERROR",
+            "error"
+        );
+
+
+        alert(
+            "Could not start ANC Lab:\n\n"
+            +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STOP ENGINE
+========================================================= */
+
+async function stopEngine() {
+
+    if (
+        animationID
+    ) {
+
+        cancelAnimationFrame(
+            animationID
+        );
+
+        animationID = null;
+
+    }
+
+
+    if (
+        processorNode
+    ) {
+
+        try {
+
+            processorNode.disconnect();
+
+        }
+
+        catch (_) {}
+
+
+        processorNode = null;
+
+    }
+
+
+    if (
+        microphoneSource
+    ) {
+
+        try {
+
+            microphoneSource.disconnect();
+
+        }
+
+        catch (_) {}
+
+
+        microphoneSource = null;
+
+    }
+
+
+    if (
+        analyser
+    ) {
+
+        try {
+
+            analyser.disconnect();
+
+        }
+
+        catch (_) {}
+
+
+        analyser = null;
+
+    }
+
+
+    if (
+        microphoneStream
+    ) {
+
+        microphoneStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+
+        microphoneStream = null;
+
+    }
+
+
+    microphoneTrack = null;
+
+
+    if (
+        audioContext
+    ) {
+
+        try {
+
+            await audioContext.close();
+
+        }
+
+        catch (_) {}
+
+
+        audioContext = null;
+
+    }
+
+
+    if (
+        workletURL
+    ) {
+
+        URL.revokeObjectURL(
+            workletURL
+        );
+
+
+        workletURL = null;
+
+    }
+
+
+    latestMetrics = {
+
+        inputRMS:
+            0,
+
+        outputRMS:
+            0,
+
+        peak:
+            0
+
+    };
+
+
+    $("inputMeter")
+        .textContent =
+        "−∞ dB";
+
+
+    $("outputMeter")
+        .textContent =
+        "−∞ dB";
+
+
+    $("peakMeter")
+        .textContent =
+        "0.000";
+
+
+    $("startButton")
+        .disabled =
+        false;
+
+
+    $("stopButton")
+        .disabled =
+        true;
+
+
+    setStatus(
+        "OFFLINE"
+    );
+
+
+    clearSpectrum();
+
+}
+
+
+/* =========================================================
+   EMERGENCY STOP
+========================================================= */
+
+let emergencyActive =
+    false;
+
+
+async function emergencyStop(
+    reason
+) {
+
+    if (
+        emergencyActive
+    ) {
+
+        return;
+
+    }
+
+
+    emergencyActive =
+        true;
+
+
+    await stopEngine();
+
+
+    setStatus(
+        "SAFETY STOP",
+        "error"
+    );
+
+
+    alert(
+        "ANC LAB SAFETY SHUTDOWN\n\n"
+        +
+        reason
+        +
+        "\n\nReduce your device volume before restarting."
+    );
+
+
+    setTimeout(
+        () => {
+
+            emergencyActive =
+                false;
+
+        },
+        1000
+    );
+
+}
+
+
+/* =========================================================
+   SEND PARAMETERS
+========================================================= */
+
+function sendParameters() {
+
+    if (
+        !processorNode
+    ) {
+
+        return;
+
+    }
+
+
+    const parameters = {
+
+        mode:
+            $("mode").value,
+
+        gain:
+            Number(
+                $("gain").value
+            ),
+
+        delayMs:
+            Number(
+                $("delay").value
+            ),
+
+        phase:
+            Number(
+                $("phase").value
+            ),
+
+        highpass:
+            Number(
+                $("highpass").value
+            ),
+
+        lowpass:
+            Number(
+                $("lowpass").value
+            ),
+
+        limit:
+            Number(
+                $("limit").value
+            ),
+
+        adaptive:
+            Number(
+                $("adaptive").value
+            )
+
+    };
+
+
+    processorNode
+        .port
+        .postMessage({
+
+            type:
+                "parameters",
+
+            parameters
+
+        });
+
+}
+
+
+/* =========================================================
+   DIAGNOSTICS
+========================================================= */
+
+function updateDiagnostics() {
+
+    if (
+        !audioContext
+        ||
+        !microphoneTrack
+    ) {
+
+        return;
+
+    }
+
+
+    $("sampleRate")
+        .textContent =
+        audioContext.sampleRate
+        +
+        " Hz";
+
+
+    $("audioState")
+        .textContent =
+        audioContext.state;
+
+
+    $("baseLatency")
+        .textContent =
+        secondsToMilliseconds(
+            audioContext.baseLatency
+        );
+
+
+    $("outputLatency")
+        .textContent =
+        secondsToMilliseconds(
+            audioContext.outputLatency
+        );
+
+
+    const settings =
+        microphoneTrack
+            .getSettings();
+
+
+    $("inputLatency")
+        .textContent =
+        secondsToMilliseconds(
+            settings.latency
+        );
+
+
+    $("aec")
+        .textContent =
+        settingState(
+            settings.echoCancellation
+        );
+
+
+    $("ns")
+        .textContent =
+        settingState(
+            settings.noiseSuppression
+        );
+
+
+    $("agc")
+        .textContent =
+        settingState(
+            settings.autoGainControl
+        );
+
+
+    $("device")
+        .textContent =
+        settings.label ||
+        microphoneTrack.label ||
+        "Microphone";
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function secondsToMilliseconds(
+    value
+) {
+
+    if (
+        typeof value !==
+        "number"
+        ||
+        !Number.isFinite(
+            value
+        )
+    ) {
+
+        return "Not reported";
+
+    }
+
+
+    return (
+        value *
+        1000
+    ).toFixed(
+        2
+    )
+    +
+    " ms";
+
+}
+
+
+function settingState(
+    value
+) {
+
+    if (
+        value === true
+    ) {
+
+        return "ON";
+
+    }
+
+
+    if (
+        value === false
+    ) {
+
+        return "OFF";
+
+    }
+
+
+    return "Not reported";
+
+}
+
+
+function setStatus(
+    text,
+    className = ""
+) {
+
+    const status =
+        $("status");
+
+
+    status.textContent =
+        text;
+
+
+    status.className =
+        "status";
+
+
+    if (
+        className
+    ) {
+
+        status.classList.add(
+            className
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DB CONVERSION
+========================================================= */
+
+function amplitudeToDB(
+    amplitude
+) {
+
+    if (
+        amplitude <=
+        0.0000001
+    ) {
+
+        return "−∞ dB";
+
+    }
+
+
+    const db =
+        20 *
+        Math.log10(
+            amplitude
+        );
+
+
+    return (
+        db.toFixed(
+            1
+        )
+        +
+        " dB"
+    );
+
+}
+
+
+/* =========================================================
+   SPECTRUM
+========================================================= */
+
+const spectrumCanvas =
+    $("spectrum");
+
+
+const spectrumContext =
+    spectrumCanvas
+        .getContext(
+            "2d"
+        );
+
+
+function resizeSpectrum() {
+
+    const rect =
+        spectrumCanvas
+            .getBoundingClientRect();
+
+
+    const pixelRatio =
+        Math.min(
+            window.devicePixelRatio ||
+            1,
+            2
+        );
+
+
+    spectrumCanvas.width =
+        Math.max(
+            1,
+            Math.floor(
+                rect.width *
+                pixelRatio
+            )
+        );
+
+
+    spectrumCanvas.height =
+        Math.max(
+            1,
+            Math.floor(
+                rect.height *
+                pixelRatio
+            )
+        );
+
+
+    spectrumContext
+        .setTransform(
+            pixelRatio,
+            0,
+            0,
+            pixelRatio,
+            0,
+            0
+        );
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeSpectrum
+);
+
+
+resizeSpectrum();
+
+
+function clearSpectrum() {
+
+    const width =
+        spectrumCanvas
+            .clientWidth;
+
+
+    const height =
+        spectrumCanvas
+            .clientHeight;
+
+
+    spectrumContext
+        .clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+    drawSpectrumGrid();
+
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+function drawSpectrumGrid() {
+
+    const ctx =
+        spectrumContext;
+
+
+    const width =
+        spectrumCanvas
+            .clientWidth;
+
+
+    const height =
+        spectrumCanvas
+            .clientHeight;
+
+
+    ctx.strokeStyle =
+        "rgba(100,150,190,.12)";
+
+
+    ctx.lineWidth =
+        1;
+
+
+    for (
+        let i = 1;
+        i < 6;
+        i++
+    ) {
+
+        const y =
+            height *
+            i /
+            6;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            0,
+            y
+        );
+
+        ctx.lineTo(
+            width,
+            y
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    for (
+        let i = 1;
+        i < 8;
+        i++
+    ) {
+
+        const x =
+            width *
+            i /
+            8;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            0
+        );
+
+        ctx.lineTo(
+            x,
+            height
+        );
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =========================================================
+   VISUALIZER LOOP
+========================================================= */
+
+function startVisualizer() {
+
+    if (
+        !analyser
+    ) {
+
+        return;
+
+    }
+
+
+    const frequencyData =
+        new Uint8Array(
+            analyser.frequencyBinCount
+        );
+
+
+    function draw() {
+
+        if (
+            !analyser
+        ) {
+
+            return;
+
+        }
+
+
+        analyser
+            .getByteFrequencyData(
+                frequencyData
+            );
+
+
+        const ctx =
+            spectrumContext;
+
+
+        const width =
+            spectrumCanvas
+                .clientWidth;
+
+
+        const height =
+            spectrumCanvas
+                .clientHeight;
+
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        drawSpectrumGrid();
+
+
+        /*
+           Log-like frequency mapping.
+
+           This makes low frequencies
+           easier to inspect than a
+           completely linear FFT plot.
+        */
+
+        ctx.beginPath();
+
+
+        const bins =
+            frequencyData.length;
+
+
+        const points =
+            Math.min(
+                400,
+                Math.floor(
+                    width
+                )
+            );
+
+
+        for (
+            let i = 0;
+            i < points;
+            i++
+        ) {
+
+            const normalized =
+                i /
+                Math.max(
+                    1,
+                    points - 1
+                );
+
+
+            const curved =
+                normalized *
+                normalized;
+
+
+            const bin =
+                Math.min(
+
+                    bins - 1,
+
+                    Math.floor(
+                        curved *
+                        bins
+                    )
+
+                );
+
+
+            const magnitude =
+                frequencyData[
+                    bin
+                ] /
+                255;
+
+
+            const x =
+                normalized *
+                width;
+
+
+            const y =
+                height -
+                magnitude *
+                height *
+                0.92;
+
+
+            if (
+                i === 0
+            ) {
+
+                ctx.moveTo(
+                    x,
+                    y
+                );
+
+            }
+
+            else {
+
+                ctx.lineTo(
+                    x,
+                    y
+                );
+
+            }
+
+        }
+
+
+        ctx.strokeStyle =
+            "#a9e5ff";
+
+
+        ctx.lineWidth =
+            2;
+
+
+        ctx.stroke();
+
+
+        /* ===============================================
+           METERS
+        =============================================== */
+
+        $("inputMeter")
+            .textContent =
+            amplitudeToDB(
+                latestMetrics
+                    .inputRMS
+            );
+
+
+        $("outputMeter")
+            .textContent =
+            amplitudeToDB(
+                latestMetrics
+                    .outputRMS
+            );
+
+
+        $("peakMeter")
+            .textContent =
+            latestMetrics
+                .peak
+                .toFixed(
+                    3
+                );
+
+
+        if (
+            audioContext
+        ) {
+
+            $("audioState")
+                .textContent =
+                audioContext.state;
+
+        }
+
+
+        animationID =
+            requestAnimationFrame(
+                draw
+            );
+
+    }
+
+
+    draw();
+
+}
+
+
+/* =========================================================
+   CONTROL BINDINGS
+========================================================= */
+
+function bindRange(
+    id,
+    outputID,
+    formatter
+) {
+
+    const input =
+        $(id);
+
+
+    const output =
+        $(outputID);
+
+
+    function update() {
+
+        output.textContent =
+            formatter(
+                Number(
+                    input.value
+                )
+            );
+
+
+        sendParameters();
+
+    }
+
+
+    input.addEventListener(
+        "input",
+        update
+    );
+
+
+    update();
+
+}
+
+
+/* =========================================================
+   RANGE FORMATTERS
+========================================================= */
+
+bindRange(
+
+    "gain",
+
+    "gainValue",
+
+    value =>
+        value.toFixed(
+            3
+        )
+
+);
+
+
+bindRange(
+
+    "delay",
+
+    "delayValue",
+
+    value =>
+        value.toFixed(
+            2
+        )
+        +
+        " ms"
+
+);
+
+
+bindRange(
+
+    "phase",
+
+    "phaseValue",
+
+    value =>
+        Math.round(
+            value
+        )
+        +
+        "°"
+
+);
+
+
+bindRange(
+
+    "highpass",
+
+    "highpassValue",
+
+    value =>
+        Math.round(
+            value
+        )
+        +
+        " Hz"
+
+);
+
+
+bindRange(
+
+    "lowpass",
+
+    "lowpassValue",
+
+    value =>
+        Math.round(
+            value
+        )
+        +
+        " Hz"
+
+);
+
+
+bindRange(
+
+    "limit",
+
+    "limitValue",
+
+    value =>
+        value.toFixed(
+            3
+        )
+
+);
+
+
+bindRange(
+
+    "adaptive",
+
+    "adaptiveValue",
+
+    value =>
+        value.toFixed(
+            4
+        )
+
+);
+
+
+$("mode")
+    .addEventListener(
+        "change",
+        sendParameters
+    );
+
+
+/* =========================================================
+   PRESETS
+========================================================= */
+
+const presets = {
+
+    safe: {
+
+        mode:
+            "invert",
+
+        gain:
+            0.035,
+
+        delay:
+            0,
+
+        phase:
+            180,
+
+        highpass:
+            40,
+
+        lowpass:
+            300,
+
+        limit:
+            0.080,
+
+        adaptive:
+            0.001
+
+    },
+
+
+    fan: {
+
+        mode:
+            "invert",
+
+        gain:
+            0.055,
+
+        delay:
+            0,
+
+        phase:
+            180,
+
+        highpass:
+            30,
+
+        lowpass:
+            450,
+
+        limit:
+            0.090,
+
+        adaptive:
+            0.002
+
+    },
+
+
+    engine: {
+
+        mode:
+            "invert",
+
+        gain:
+            0.050,
+
+        delay:
+            0,
+
+        phase:
+            180,
+
+        highpass:
+            25,
+
+        lowpass:
+            300,
+
+        limit:
+            0.085,
+
+        adaptive:
+            0.0015
+
+    },
+
+
+    hum: {
+
+        mode:
+            "invert",
+
+        gain:
+            0.040,
+
+        delay:
+            0,
+
+        phase:
+            180,
+
+        highpass:
+            35,
+
+        lowpass:
+            100,
+
+        limit:
+            0.075,
+
+        adaptive:
+            0.001
+
+    }
+
+};
+
+
+/* =========================================================
+   APPLY PRESET
+========================================================= */
+
+function applyPreset(
+    name
+) {
+
+    const preset =
+        presets[
+            name
+        ];
+
+
+    if (
+        !preset
+    ) {
+
+        return;
+
+    }
+
+
+    $("mode").value =
+        preset.mode;
+
+
+    $("gain").value =
+        preset.gain;
+
+
+    $("delay").value =
+        preset.delay;
+
+
+    $("phase").value =
+        preset.phase;
+
+
+    $("highpass").value =
+        preset.highpass;
+
+
+    $("lowpass").value =
+        preset.lowpass;
+
+
+    $("limit").value =
+        preset.limit;
+
+
+    $("adaptive").value =
+        preset.adaptive;
+
+
+    /*
+       Trigger input events so UI labels
+       and DSP update together.
+    */
+
+    [
+
+        "gain",
+
+        "delay",
+
+        "phase",
+
+        "highpass",
+
+        "lowpass",
+
+        "limit",
+
+        "adaptive"
+
+    ]
+    .forEach(
+        id => {
+
+            $(id)
+                .dispatchEvent(
+                    new Event(
+                        "input"
+                    )
+                );
+
+        }
+    );
+
+
+    sendParameters();
+
+}
+
+
+/* =========================================================
+   PRESET BUTTONS
+========================================================= */
+
+document
+    .querySelectorAll(
+        "[data-preset]"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    applyPreset(
+                        button.dataset
+                            .preset
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+$("startButton")
+    .addEventListener(
+        "click",
+        startEngine
+    );
+
+
+$("stopButton")
+    .addEventListener(
+        "click",
+        stopEngine
+    );
+
+
+/* =========================================================
+   PAGE VISIBILITY SAFETY
+
+   If browser puts page into background,
+   stop the microphone/output path.
+
+   Mobile browsers can behave differently
+   when backgrounded, so stopping is safer.
+========================================================= */
+
+document.addEventListener(
+
+    "visibilitychange",
+
+    () => {
+
+        if (
+            document.hidden
+            &&
+            audioContext
+        ) {
+
+            stopEngine();
+
+        }
+
+    }
+
+);
+
+
+/* =========================================================
+   PAGE CLOSE CLEANUP
+========================================================= */
+
+window.addEventListener(
+
+    "pagehide",
+
+    () => {
+
+        if (
+            microphoneStream
+        ) {
+
+            microphoneStream
+                .getTracks()
+                .forEach(
+                    track =>
+                        track.stop()
+                );
+
+        }
+
+    }
+
+);
+
+
+/* =========================================================
+   INITIAL DISPLAY
+========================================================= */
+
+clearSpectrum();
+
+applyPreset(
+    "safe"
+);
+
+</script>
+
+</body>
+</html>
